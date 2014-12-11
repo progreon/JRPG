@@ -10,23 +10,23 @@ package be.willima.jrpgdatabase.model;
  * @author marco
  */
 public class JRPGTile {
-    
+
     public static JRPGTile VOID = new JRPGTile(0);
     public static JRPGTile GRASS = new JRPGTile(1);
-    
-    private final int tileID;
-    //texture (= 2D tabel van color?)
 
-    public JRPGTile() {
+    private final int tileID;
+    // Texture (= 2D tabel van color?): TODO
+
+    private JRPGTile() {
         tileID = 0;
     }
 
     public JRPGTile(int tileID) {
         this.tileID = tileID;
     }
-    
+
     public int getTileID() {
         return tileID;
     }
-    
+
 }

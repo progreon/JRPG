@@ -5,6 +5,9 @@
  */
 package be.willima.jrpgmaker;
 
+import be.willima.jrpgdatabase.JRPGDao;
+import be.willima.jrpgdatabase.JRPGDatabaseFactory;
+
 /**
  *
  * @author marco
@@ -16,6 +19,8 @@ class Frame {
      */
     public static void main(String[] args) {
         // TODO code application logic here
+        JRPGDao dao = JRPGDatabaseFactory.getJRPGDao(JRPGDatabaseFactory.DaoType.DUMMY);
+        System.out.println(dao.getInfo());
     }
     
 }
