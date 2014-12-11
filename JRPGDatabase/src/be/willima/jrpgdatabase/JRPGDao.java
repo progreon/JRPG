@@ -6,7 +6,6 @@
 package be.willima.jrpgdatabase;
 
 import be.willima.jrpgdatabase.model.JRPGProject;
-import java.util.Set;
 
 /**
  *
@@ -16,29 +15,25 @@ public interface JRPGDao {
     
     public enum DaoError {
         NO_ERROR,
-        ID_CREATION_FAIL,
-        ID_ALREADY_EXISTS,
-        ID_NOT_FOUND
+        NO_SAVE
     }
     
     public String getInfo();
     
     /**
-     * TODO<br>
-     * 
-     * DO NOT EDIT THIS SET
-     */
-    Set<Integer> getUsedProjectIDs();
-    
-    /**
-     * This also creates a new database for the project!
+     * This will create a new database for the project.
      * 
      * TODO
      */
-    public JRPGProject createNewProject(String projectTitle, String gameTitle);
+    public JRPGProject createNewProject(String projectFolderLocation, String projectTitle, String gameTitle);
+    
+    /**
+     * This opens and loads the project.
+     * 
+     * TODO
+     */
+    public JRPGProject getProjectByProjectFileURI(String projectFileURI);
     
     public DaoError saveProject(JRPGProject project);
-    
-    public JRPGProject getProject(int projectID);
     
 }

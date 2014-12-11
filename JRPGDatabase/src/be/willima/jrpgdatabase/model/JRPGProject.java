@@ -18,18 +18,18 @@ import java.util.List;
  */
 public class JRPGProject {
 
-    private int projectID;
+    private JRPGDao dao;
+    private String projectFolderLocation;
     private String projectTitle;
     private String gameTitle;
-    private JRPGDao dao;
     private final List<JRPGMap> maps;
 
-    public JRPGProject(JRPGDao dao, int projectID, String projectTitle, String gameTitle, List<JRPGMap> maps) {
+    public JRPGProject(JRPGDao dao, String projectFolderLocation, String projectTitle, String gameTitle, List<JRPGMap> maps) {
         if (dao == null) {
             throw new RuntimeException("The JRPGDao cannot be null!");
         }
         this.dao = dao;
-        this.projectID = projectID;
+        this.projectFolderLocation = projectFolderLocation;
         this.projectTitle = projectTitle;
         this.gameTitle = gameTitle;
         if (maps == null) {
@@ -38,12 +38,16 @@ public class JRPGProject {
         this.maps = maps;
     }
     
-    public int getProjectID() {
-        return this.projectID;
+    public String getProjectFolderLocation() {
+        return this.projectFolderLocation;
     }
     
     public String getProjectTitle() {
         return this.projectTitle;
+    }
+    
+    public String getProjectFolderURI() {
+        return this.projectFolderLocation + "/" + this.projectTitle + "/";
     }
     
     public String getGameTitle() {
