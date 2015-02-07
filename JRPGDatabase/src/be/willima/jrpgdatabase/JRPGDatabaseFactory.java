@@ -8,6 +8,7 @@ package be.willima.jrpgdatabase;
 import be.willima.jrpgdatabase.implementation.JRPGDaoDummy;
 
 /**
+ * TODO
  *
  * @author marco
  */
@@ -15,10 +16,19 @@ public class JRPGDatabaseFactory {
     
     private static JRPGDao selectedDao = null;
     
+    /**
+     * TODO
+     */
     public enum DaoType {
         DUMMY
     }
     
+    /**
+     * TODO
+     *
+     * @param daoType
+     * @return
+     */
     public static JRPGDao getJRPGDao(DaoType daoType) {
         if (selectedDao != null) {
             throw new RuntimeException("You had already chosen a JRPGDao to use! If you choose a new one, erros WILL occur!");

@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- *
+ * TODO
  * TODO: change everything so that projectTitle is unique instead of projectID (let that be uniquely generated).
  * 
  * @author marco
@@ -24,6 +24,15 @@ public class JRPGProject {
     private String gameTitle;
     private final List<JRPGMap> maps;
 
+    /**
+     * TODO
+     *
+     * @param dao
+     * @param projectFolderLocation
+     * @param projectTitle
+     * @param gameTitle
+     * @param maps
+     */
     public JRPGProject(JRPGDao dao, String projectFolderLocation, String projectTitle, String gameTitle, List<JRPGMap> maps) {
         if (dao == null) {
             throw new RuntimeException("The JRPGDao cannot be null!");

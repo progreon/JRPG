@@ -6,6 +6,7 @@
 package be.willima.jrpgdatabase.model;
 
 /**
+ * TODO
  *
  * @author marco
  */
@@ -21,6 +22,12 @@ public class JRPGTile {
         tileID = 0;
     }
 
+    /**
+     * TODO
+     * private??
+     *
+     * @param tileID
+     */
     public JRPGTile(int tileID) {
         this.tileID = tileID;
     }

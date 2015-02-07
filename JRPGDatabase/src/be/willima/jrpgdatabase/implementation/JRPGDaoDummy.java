@@ -13,6 +13,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
+ * TODO
  *
  * @author marco
  */
@@ -24,6 +25,11 @@ public class JRPGDaoDummy implements JRPGDao {
     
     //// END OF THOSE THINGS ////
 
+    /**
+     * TODO
+     * public?
+     */
+    
     public JRPGDaoDummy() {
         createDummyData();
     }
