@@ -1,6 +1,10 @@
 JRPGDatabase/build/
 JRPGDatabase/dist/
+JRPGDatabase/nbproject/build-impl.xml
+JRPGDatabase/nbproject/genfiles.properties
 JRPGDatabase/nbproject/private/
 JRPGMaker/build/
 JRPGMaker/dist/
 JRPGMaker/nbproject/private/
+JRPGMaker/nbproject/build-impl.xml
+JRPGMaker/nbproject/genfiles.properties
