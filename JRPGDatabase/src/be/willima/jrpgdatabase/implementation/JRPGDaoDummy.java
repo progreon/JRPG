@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 import java.util.TreeMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -31,6 +32,7 @@ public class JRPGDaoDummy implements JRPGDao {
     private Map<String, JRPGProject> projects; // URI -> JRPGProject
 //    private Map<Integer, List<JRPGMap>> mapsPerProject; // Not really needed
     private Map<Integer, JRPGTile> tiles; // Tile-ID -> JRPGTile
+    private int numTiles;
     //// END OF THOSE THINGS ////
 
     /**
@@ -89,7 +91,26 @@ public class JRPGDaoDummy implements JRPGDao {
     private JRPGProject createDummyProject() {
         List<JRPGMap> maps = new ArrayList<>();
         maps.add(createDummyMap());
+        maps.add(createRandomDummyMap());
         return new JRPGProject("dummyfolderlocation", "Dummy project", "Dummy game", maps);
+    }
+
+    private JRPGMap createMapFromIDs(String mapName, int[][] mapTileIDs) {
+        JRPGTile[][] mapTiles = new JRPGTile[mapTileIDs.length][mapTileIDs[0].length];
+        for (int i = 0; i < mapTileIDs.length; i++) {
+            for (int j = 0; j < mapTileIDs[i].length; j++) {
+                mapTiles[i][j] = tiles.get(mapTileIDs[j][i]);
+            }
+        }
+        JRPGMap map;
+        try {
+            map = new JRPGMap(mapName, mapTiles);
+        } catch (Exception ex) {
+            Logger.getLogger(JRPGDaoDummy.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println("For now, using the default map instead ...");
+            map = new JRPGMap(mapName, 0, 0);
+        }
+        return map;
     }
 
     private JRPGMap createDummyMap() {
@@ -104,28 +125,26 @@ public class JRPGDaoDummy implements JRPGDao {
             {0, 3, 3, 1, 1, 1, 1, 3, 3, 0},
             {0, 3, 3, 3, 3, 3, 3, 3, 3, 0},
             {0, 0, 0, 0, 0, 0, 0, 0, 0, 0}};
-        JRPGTile[][] mapTiles = new JRPGTile[mapTileIDs.length][mapTileIDs[0].length];
-        for (int i = 0; i < mapTileIDs.length; i++) {
-            for (int j = 0; j < mapTileIDs[i].length; j++) {
-                mapTiles[i][j] = tiles.get(mapTileIDs[j][i]);
+        return createMapFromIDs("Dummy map", mapTileIDs);
+    }
+
+    private JRPGMap createRandomDummyMap() {
+        Random rg = new Random();
+        int size = rg.nextInt(20) + 10;
+        int[][] mapTileIDs = new int[size][size];
+        for (int i = 0; i < size; i++) {
+            for (int j = 0; j < size; j++) {
+                mapTileIDs[i][j] = rg.nextInt(numTiles);
             }
         }
-        JRPGMap map;
-        try {
-            map = new JRPGMap("Dummy map", mapTiles);
-        } catch (Exception ex) {
-            Logger.getLogger(JRPGDaoDummy.class.getName()).log(Level.SEVERE, null, ex);
-            System.out.println("For now, using the default map instead ...");
-            map = new JRPGMap("Dummy map", 0, 0);
-        }
-        return map;
+        return createMapFromIDs("Random map", mapTileIDs);
     }
 
     private void createDummyTiles() {
         tiles = new TreeMap<>();
-
+        numTiles = 0;
         // VOID-tile
-        int voidTileID = 0;
+        int voidTileID = numTiles;
         int[] voidPixels = new int[]{0, 1, 0, 1, 0, 1, 0, 1,
             1, 0, 1, 0, 1, 0, 1, 0,
             0, 1, 0, 1, 0, 1, 0, 1,
@@ -138,8 +157,10 @@ public class JRPGDaoDummy implements JRPGDao {
         JRPGTile voidTile = new JRPGTile(voidTileID, "VOID", voidPixels, voidColors);
         tiles.put(voidTile.getTileID(), voidTile);
 
+        numTiles++;
+
         // GRASS-tile
-        int grassTileID = 1;
+        int grassTileID = numTiles;
         int[] grassPixels = new int[]{0, 0, 0, 0, 0, 0, 0, 0,
             0, 1, 0, 0, 0, 0, 0, 0,
             0, 0, 0, 0, 0, 1, 0, 0,
@@ -152,8 +173,10 @@ public class JRPGDaoDummy implements JRPGDao {
         JRPGTile grassTile = new JRPGTile(grassTileID, "GRASS", grassPixels, grassColors);
         tiles.put(grassTile.getTileID(), grassTile);
 
+        numTiles++;
+
         // STONE-tile
-        int stoneTileID = 2;
+        int stoneTileID = numTiles;
         int[] stonePixels = new int[]{0, 0, 0, 0, 0, 0, 0, 0,
             0, 0, 0, 0, 0, 1, 1, 0,
             0, 0, 0, 0, 0, 1, 1, 0,
@@ -166,8 +189,10 @@ public class JRPGDaoDummy implements JRPGDao {
         JRPGTile stoneTile = new JRPGTile(stoneTileID, "STONE", stonePixels, stoneColors);
         tiles.put(stoneTile.getTileID(), stoneTile);
 
+        numTiles++;
+
         // WATER-tile
-        int waterTileID = 3;
+        int waterTileID = numTiles;
         int[] waterPixels = new int[]{0, 0, 0, 0, 0, 0, 0, 0,
             0, 0, 1, 1, 0, 0, 0, 0,
             0, 1, 0, 0, 1, 0, 0, 0,
@@ -179,6 +204,8 @@ public class JRPGDaoDummy implements JRPGDao {
         Color[] waterColors = new Color[]{Color.BLUE, Color.CYAN};
         JRPGTile waterTile = new JRPGTile(waterTileID, "WATER", waterPixels, waterColors);
         tiles.put(waterTile.getTileID(), waterTile);
+
+        numTiles++;
     }
 
 }
