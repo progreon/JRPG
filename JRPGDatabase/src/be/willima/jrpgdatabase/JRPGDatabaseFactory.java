@@ -13,16 +13,17 @@ import be.willima.jrpgdatabase.implementation.JRPGDaoDummy;
  * @author marco
  */
 public class JRPGDatabaseFactory {
-    
+
     private static JRPGDao selectedDao = null;
-    
+
     /**
      * TODO
      */
     public enum DaoType {
+
         DUMMY
     }
-    
+
     /**
      * TODO
      *
@@ -31,13 +32,13 @@ public class JRPGDatabaseFactory {
      */
     public static JRPGDao getJRPGDao(DaoType daoType) {
         if (selectedDao != null) {
-            throw new RuntimeException("You had already chosen a JRPGDao to use! If you choose a new one, erros WILL occur!");
+            throw new RuntimeException("You had already chosen a JRPGDao to use! If you choose a new one while the application is running, erros WILL occur!");
         }
         if (daoType == DaoType.DUMMY) {
             selectedDao = new JRPGDaoDummy();
         }
-        
+
         return selectedDao;
     }
-    
+
 }

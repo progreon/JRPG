@@ -10,7 +10,7 @@ package be.willima.jrpgdatabase;
  * 
  * @author marco
  */
-public class Frame {
+public class JRPGDatabase {
 
     /**
      * TODO

@@ -30,26 +30,30 @@ public interface JRPGDao {
      * 
      * @param projectFolderLocation
      * @param projectTitle
-     * @param gameTitle
-     * @return 
+     * @param gameTitle 
      */
-    public JRPGProject createNewProject(String projectFolderLocation, String projectTitle, String gameTitle);
+    public void createNewProjectAndSetActive(String projectFolderLocation, String projectTitle, String gameTitle);
     
     /**
      * TODO
      * This opens and loads the project.
      * 
-     * @param projectFileURI
-     * @return 
+     * @param projectFileURI 
      */
-    public JRPGProject getProjectByProjectFileURI(String projectFileURI);
+    public void loadProjectByProjectFileURI(String projectFileURI);
     
     /**
      * TODO
      *
-     * @param project
      * @return
      */
-    public DaoError saveProject(JRPGProject project);
+    public DaoError saveActiveProject();
+    
+    /**
+     * TODO
+     *
+     * @return
+     */
+    public JRPGProject getActiveProject();
     
 }
