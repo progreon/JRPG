@@ -7,7 +7,7 @@ package be.willima.jrpgmaker;
 
 import be.willima.jrpgdatabase.JRPGDao;
 import be.willima.jrpgdatabase.JRPGDatabaseFactory;
-import be.willima.jrpgmaker.menus.MainMenu;
+import be.willima.jrpgmaker.menus.MenuBuilder;
 import java.awt.Dimension;
 import java.awt.HeadlessException;
 import javax.swing.JFrame;
@@ -17,15 +17,16 @@ import javax.swing.JFrame;
  *
  * @author marco
  */
-class Frame extends JFrame {
+class JRPGMaker extends JFrame {
     
     private final JRPGDao dao;
 
-    public Frame(JRPGDao dao) throws HeadlessException {
+    public JRPGMaker(JRPGDao dao) throws HeadlessException {
         super("JRPGMaker");
         this.dao = dao;
         
-        this.setJMenuBar(new MainMenu("mainMenuTest.xml"));
+//        this.setJMenuBar(new MainMenu("mainMenuTest.xml"));
+        this.setJMenuBar(MenuBuilder.createMenuBar("mainMenuTest.xml"));
         
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         this.setSize(new Dimension(400, 300));
@@ -43,7 +44,7 @@ class Frame extends JFrame {
         JRPGDao dao = JRPGDatabaseFactory.getJRPGDao(JRPGDatabaseFactory.DaoType.DUMMY);
         System.out.println("Dao: " + dao.getInfo());
         
-        Frame frame = new Frame(dao);
+        JRPGMaker frame = new JRPGMaker(dao);
         frame.setVisible(true);
     }
     
