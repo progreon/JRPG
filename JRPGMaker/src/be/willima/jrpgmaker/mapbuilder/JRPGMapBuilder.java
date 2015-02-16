@@ -22,7 +22,7 @@ public class JRPGMapBuilder extends JFrame {
         
         JRPGDao dao = JRPGDatabaseFactory.getJRPGDao(JRPGDatabaseFactory.DaoType.DUMMY);
         
-        this.setContentPane(new MapEditorPanel(dao.getActiveProject().getMaps().get(0)));
+        this.setContentPane(new MapEditorPanel(dao.getActiveProject()));
         
         pack();
 //        setResizable(false);

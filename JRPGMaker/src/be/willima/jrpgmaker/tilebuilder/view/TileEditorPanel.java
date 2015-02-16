@@ -3,17 +3,17 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package be.willima.jrpgmaker.view;
+package be.willima.jrpgmaker.tilebuilder.view;
 
-import be.willima.jrpgdatabase.model.JRPGProject;
 import javax.swing.JPanel;
 
 /**
  *
  * @author marco
  */
-public class ProjectPanel extends JPanel {
-    
-    private JRPGProject project;
+public class TileEditorPanel extends JPanel {
+
+    public TileEditorPanel() {
+    }
     
 }
