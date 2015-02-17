@@ -8,10 +8,13 @@ package be.willima.jrpgmaker.mapbuilder.view;
 import be.willima.jrpgdatabase.model.JRPGMap;
 import be.willima.jrpgdatabase.model.JRPGProject;
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Point;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import javax.swing.BorderFactory;
+import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.DefaultListSelectionModel;
 import javax.swing.JButton;
@@ -21,7 +24,6 @@ import javax.swing.JScrollPane;
 import javax.swing.JSlider;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
-import javax.swing.ViewportLayout;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.ListSelectionEvent;
@@ -41,6 +43,9 @@ public class MapEditorPanel extends JPanel {
     private final MapEditorSettingsPanel settingsPanel;
     private final JPanel mapViewPanel;
     private final JScrollPane scrMap;
+    
+    private final int MIN_SCALE = 1;
+    private final int MAX_SCALE = 10;
 
     public MapEditorPanel(JRPGProject project) {
         super(new BorderLayout());
@@ -53,10 +58,8 @@ public class MapEditorPanel extends JPanel {
 //        loadMap();
 
         mapViewPanel = new JPanel(null);
-//        mapViewPanel.setLayout(new BoxLayout(mapViewPanel, BoxLayout.Y_AXIS));
-//        mapViewPanel.add(Box.createVerticalGlue());
+        mapViewPanel.setBorder(BorderFactory.createLineBorder(Color.red, 3));
         mapViewPanel.add(mapPanel);
-//        mapViewPanel.add(Box.createVerticalGlue());
 
         settingsPanel = new MapEditorSettingsPanel();
 
@@ -70,11 +73,7 @@ public class MapEditorPanel extends JPanel {
 
             @Override
             public void componentResized(ComponentEvent e) {
-//                super.componentResized(e); //To change body of generated methods, choose Tools | Templates.
-//                setMapPointAtCenter(new Point(mapPanel.getWidth() / 2, mapPanel.getHeight() / 2));
-                
-//                Point p = getCenterPoint();
-//                setMapPointAtCenter(p);
+                // TODO ?
             }
 
         });
@@ -99,53 +98,16 @@ public class MapEditorPanel extends JPanel {
     }
 
     public void changeScale(int newScale) {
-        Point p = getCenterPoint();
-        int oldScale = this.mapPanel.getScale();
         mapPanel.updateScale(newScale);
+        mapViewPanel.setPreferredSize(mapPanel.getSize());
+        
         this.updateUI();
-        setMapPointAtCenter(new Point(p.x * newScale / oldScale, p.y * newScale / oldScale));
     }
 
     private void loadMap() {
         mapPanel.setMap(activeMap);
-//        invalidate();
+        mapViewPanel.setPreferredSize(mapPanel.getSize());
         this.updateUI();
-        setMapPointAtCenter(new Point(mapPanel.getWidth() / 2, mapPanel.getHeight() / 2));
-    }
-
-    private void setMapPointAtCenter(Point point) {
-        int x = scrMap.getWidth() / 2 - point.x;
-        int y = scrMap.getHeight() / 2 - point.y;
-        int mapViewPanelX = 0, mapViewPanelY = 0;
-        int mapPanelX = 0, mapPanelY = 0;
-        if (x < 0) {
-            mapViewPanelX = x;
-        } else {
-            mapPanelX = x;
-        }
-        if (y < 0) {
-            mapViewPanelY = y;
-        } else {
-            mapPanelY = y;
-        }
-        mapPanel.setLocation(mapPanelX, mapPanelY);
-        mapViewPanel.setPreferredSize(new Dimension(mapPanelX + mapPanel.getWidth(), mapPanelY + mapPanel.getHeight()));
-        mapViewPanel.setLocation(mapViewPanelX, mapViewPanelY);
-//        System.out.println("mapViewPanel.setLocation(" + x + ", " + y + ");");
-//        if (mapViewPanelX != 0 && mapViewPanelY == 0) {
-//            mapViewPanel.setLocation(x, mapViewPanelY);
-//        } else if (mapViewPanelX == 0 && mapViewPanelY != 0) {
-//            mapViewPanel.setLocation(mapViewPanelX, y);
-//        } else if (mapViewPanelX != 0 && mapViewPanelY != 0) {
-//            mapViewPanel.setLocation(mapViewPanelX, mapViewPanelY);
-//        }
-//        if (mapViewPanelX != 0 || mapViewPanelY != 0) {
-//            mapViewPanel.setLocation(mapViewPanelX, mapViewPanelY);
-//        }
-    }
-
-    private Point getCenterPoint() {
-        return new Point(scrMap.getWidth() / 2 - mapPanel.getX() - mapViewPanel.getX(), scrMap.getHeight() / 2 - mapPanel.getY() - mapViewPanel.getY());
     }
 
     private class MapEditorSettingsPanel extends JPanel {
@@ -188,7 +150,7 @@ public class MapEditorPanel extends JPanel {
 //            scr.setMaximumSize(new Dimension(125, 200));
             this.add(scr);
 
-            slrScale = new JSlider(JSlider.HORIZONTAL, 1, 10, 3);
+            slrScale = new JSlider(JSlider.HORIZONTAL, MIN_SCALE, MAX_SCALE, mapPanel.getScale());
 //            slrScale.setMaximumSize(new Dimension(100, 20));
             slrScale.addChangeListener(new ChangeListener() {
 
