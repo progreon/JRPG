@@ -39,7 +39,7 @@ class JRPGMaker extends JFrame {
         init();
         
 //        this.setJMenuBar(new MainMenu("mainMenuTest.xml"));
-        this.setJMenuBar(MenuBuilder.createMenuBar("mainMenuTest.xml"));
+//        this.setJMenuBar(MenuBuilder.createMenuBar("mainMenuTest.xml"));
         this.setContentPane(tabbedPanel);
         
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
