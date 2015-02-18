@@ -32,6 +32,8 @@ class JRPGMaker extends JFrame {
     public JRPGMaker(JRPGDao dao) throws HeadlessException {
         super("JRPGMaker");
         this.dao = dao;
+        // TODO debuggen door eens geen map aan te maken! (simuleert het programma zonder project)
+        dao.createNewProject("dummyfolderlocation", "Dummy project", "Dummy game");
         mapEditorPanel = new MapEditorPanel(dao.getActiveProject());
 //        cardLayout = new CardLayout();
 //        cardsPanel = new JTabbedPane(cardLayout);
