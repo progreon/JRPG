@@ -6,6 +6,7 @@
 package be.willima.jrpgdatabase.model;
 
 //import be.willima.jrpgdatabase.JRPGDao;
+import be.willima.jrpgdatabase.JRPGDao;
 import java.awt.Dimension;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,45 +19,21 @@ import java.util.List;
  */
 public class JRPGProject {
 
-//    private JRPGDao dao;
+    private JRPGDao dao;
     private final String projectFolderLocation;
     private final String projectTitle;
     private String gameTitle;
     private final List<JRPGMap> maps;
 
-    /**
-     * TODO
-     *
-     * @param projectFolderLocation
-     * @param projectTitle
-     * @param gameTitle
-     * @param maps
-     */
-    public JRPGProject(String projectFolderLocation, String projectTitle, String gameTitle, List<JRPGMap> maps) {
-        this.projectFolderLocation = projectFolderLocation;
-        this.projectTitle = projectTitle;
-        this.gameTitle = gameTitle;
-        if (maps == null) {
-            this.maps = new ArrayList<>();
-        } else {
-            this.maps = maps;
-        }
-    }
-
 //    /**
 //     * TODO
 //     *
-//     * @param dao
 //     * @param projectFolderLocation
 //     * @param projectTitle
 //     * @param gameTitle
 //     * @param maps
 //     */
-//    public JRPGProject(JRPGDao dao, String projectFolderLocation, String projectTitle, String gameTitle, List<JRPGMap> maps) {
-//        if (dao == null) {
-//            throw new RuntimeException("The JRPGDao cannot be null!");
-//        }
-//        this.dao = dao;
+//    public JRPGProject(String projectFolderLocation, String projectTitle, String gameTitle, List<JRPGMap> maps) {
 //        this.projectFolderLocation = projectFolderLocation;
 //        this.projectTitle = projectTitle;
 //        this.gameTitle = gameTitle;
@@ -66,6 +43,31 @@ public class JRPGProject {
 //            this.maps = maps;
 //        }
 //    }
+
+    /**
+     * TODO
+     *
+     * @param dao
+     * @param projectFolderLocation
+     * @param projectTitle
+     * @param gameTitle
+     * @param maps
+     */
+    public JRPGProject(JRPGDao dao, String projectFolderLocation, String projectTitle, String gameTitle, List<JRPGMap> maps) {
+        if (dao == null) {
+            throw new RuntimeException("The JRPGDao cannot be null!");
+        }
+        this.dao = dao;
+        this.projectFolderLocation = projectFolderLocation;
+        this.projectTitle = projectTitle;
+        this.gameTitle = gameTitle;
+        if (maps == null) {
+            this.maps = new ArrayList<>();
+        } else {
+            this.maps = maps;
+        }
+    }
+    
     public String getProjectFolderLocation() {
         return this.projectFolderLocation;
     }
@@ -92,10 +94,14 @@ public class JRPGProject {
 
     public JRPGMap createNewMap(String mapTitle, Dimension dim) {
         int mapID = this.maps.size();
-        JRPGMap newMap = new JRPGMap(mapID, mapTitle, dim.width, dim.height);
+        JRPGMap newMap = new JRPGMap(this, mapID, mapTitle, dim.width, dim.height);
         maps.add(newMap);
 
         return newMap;
+    }
+    
+    public JRPGTile getTile(int tileID) {
+        return dao.getTile(tileID);
     }
 
 //    public void save() {

@@ -10,7 +10,6 @@ import be.willima.jrpgdatabase.model.JRPGMap;
 import be.willima.jrpgdatabase.model.JRPGProject;
 import be.willima.jrpgdatabase.model.JRPGTile;
 import java.awt.Color;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -29,7 +28,7 @@ public class JRPGDaoDummy implements JRPGDao {
     private JRPGProject activeProject = null;
 
     //// THINGS THAT NORMALLY SHOULD BE IN ACTUAL DATABASE ////
-    private Map<String, JRPGProject> projects; // URI -> JRPGProject
+    private final Map<String, JRPGProject> projects; // URI -> JRPGProject
 //    private Map<Integer, List<JRPGMap>> mapsPerProject; // Not really needed
     private Map<Integer, JRPGTile> tiles; // Tile-ID -> JRPGTile
     private int numTiles;
@@ -49,14 +48,16 @@ public class JRPGDaoDummy implements JRPGDao {
     }
 
     @Override
-    public void createNewProjectAndSetActive(String projectFolderLocation, String projectTitle, String gameTitle) {
-        JRPGProject newProject = null;
-
+    public void createNewProject(String projectFolderLocation, String projectTitle, String gameTitle) {
+        // Puts dummy data into the new project
+        // TODO Make a new dummy project seperately, and open it from within the GUI?
         String projectFolderURI = projectFolderLocation + "/" + projectTitle + "/";
-
         if (!projects.containsKey(projectFolderURI)) {
-//            newProject = new JRPGProject(this, projectFolderLocation, projectTitle, gameTitle, null);
-            newProject = new JRPGProject(projectFolderLocation, projectTitle, gameTitle, null);
+            JRPGProject newProject = new JRPGProject(this, projectFolderLocation, projectTitle, gameTitle, null);
+            projects.put(newProject.getProjectFolderURI(), newProject);
+            List<JRPGMap> maps = newProject.getMaps();
+            maps.add(createDummyMap(newProject));
+            maps.add(createRandomDummyMap(newProject));
             activeProject = newProject;
         } else {
             Logger.getLogger(JRPGDaoDummy.class.toString()).log(Level.SEVERE, "Project folder name not unique!");
@@ -64,9 +65,14 @@ public class JRPGDaoDummy implements JRPGDao {
     }
 
     @Override
-    public void loadProjectByProjectFileURI(String projectFileURI) {
+    public DaoError loadProjectByProjectFileURI(String projectFileURI) {
         String projectFolderURI = projectFileURI.substring(0, projectFileURI.lastIndexOf("/"));
-        activeProject = projects.get(projectFolderURI);
+        if (projects.get(projectFolderURI) != null) {
+            activeProject = projects.get(projectFolderURI);
+            return DaoError.NO_ERROR;
+        } else {
+            return DaoError.NO_PROJECT;
+        }
     }
 
     @Override
@@ -80,40 +86,35 @@ public class JRPGDaoDummy implements JRPGDao {
         return DaoError.NO_SAVE;
     }
 
+    @Override
+    public JRPGTile getTile(int tileID) {
+        return tiles.get(tileID);
+    }
+
     private void createDummyData() {
-        // TODO
+        // TODO More dummy data!
         createDummyTiles();
-        JRPGProject project = createDummyProject();
-        projects.put(project.getProjectFolderURI(), project);
-        activeProject = project;
     }
 
-    private JRPGProject createDummyProject() {
-        List<JRPGMap> maps = new ArrayList<>();
-        maps.add(createDummyMap());
-        maps.add(createRandomDummyMap());
-        return new JRPGProject("dummyfolderlocation", "Dummy project", "Dummy game", maps);
-    }
-
-    private JRPGMap createMapFromIDs(String mapName, int[][] mapTileIDs) {
-        JRPGTile[][] mapTiles = new JRPGTile[mapTileIDs.length][mapTileIDs[0].length];
+    private JRPGMap createMapFromIDs(JRPGProject project, int mapID, String mapName, int[][] mapTileIDs) {
+        JRPGTile[][] mapTiles = new JRPGTile[mapTileIDs[0].length][mapTileIDs.length];
         for (int i = 0; i < mapTileIDs.length; i++) {
             for (int j = 0; j < mapTileIDs[i].length; j++) {
-                mapTiles[i][j] = tiles.get(mapTileIDs[j][i]);
+                mapTiles[j][i] = tiles.get(mapTileIDs[i][j]);
             }
         }
         JRPGMap map;
         try {
-            map = new JRPGMap(mapName, mapTiles);
+            map = new JRPGMap(project, mapID, mapName, mapTiles);
         } catch (Exception ex) {
             Logger.getLogger(JRPGDaoDummy.class.getName()).log(Level.SEVERE, null, ex);
             System.out.println("For now, using the default map instead ...");
-            map = new JRPGMap(mapName, 0, 0);
+            map = new JRPGMap(project, mapID, mapName, mapTiles.length, mapTiles[0].length);
         }
         return map;
     }
 
-    private JRPGMap createDummyMap() {
+    private JRPGMap createDummyMap(JRPGProject project) {
         int[][] mapTileIDs = new int[][]{
             {0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
             {0, 3, 3, 3, 3, 3, 3, 3, 3, 0},
@@ -125,10 +126,10 @@ public class JRPGDaoDummy implements JRPGDao {
             {0, 3, 3, 1, 1, 1, 1, 3, 3, 0},
             {0, 3, 3, 3, 3, 3, 3, 3, 3, 0},
             {0, 0, 0, 0, 0, 0, 0, 0, 0, 0}};
-        return createMapFromIDs("Dummy map", mapTileIDs);
+        return createMapFromIDs(project, 1, "Dummy map", mapTileIDs);
     }
 
-    private JRPGMap createRandomDummyMap() {
+    private JRPGMap createRandomDummyMap(JRPGProject project) {
         Random rg = new Random();
         int size = rg.nextInt(20) + 10;
         int[][] mapTileIDs = new int[size][size];
@@ -137,7 +138,7 @@ public class JRPGDaoDummy implements JRPGDao {
                 mapTileIDs[i][j] = rg.nextInt(numTiles);
             }
         }
-        return createMapFromIDs("Random map", mapTileIDs);
+        return createMapFromIDs(project, 2, "Random map", mapTileIDs);
     }
 
     private void createDummyTiles() {

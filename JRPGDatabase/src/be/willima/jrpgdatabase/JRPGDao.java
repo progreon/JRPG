@@ -6,6 +6,7 @@
 package be.willima.jrpgdatabase;
 
 import be.willima.jrpgdatabase.model.JRPGProject;
+import be.willima.jrpgdatabase.model.JRPGTile;
 
 /**
  * TODO
@@ -13,47 +14,57 @@ import be.willima.jrpgdatabase.model.JRPGProject;
  * @author marco
  */
 public interface JRPGDao {
-    
+
     /**
      * TODO
      */
     public enum DaoError {
+
         NO_ERROR,
-        NO_SAVE
+        NO_SAVE,
+        NO_PROJECT
     }
-    
+
     public String getInfo();
-    
+
     /**
-     * TODO
-     * This will create a new database for the project.
-     * 
+     * TODO This will create a new database for the project (and will also set
+     * this project as the current active project).
+     *
      * @param projectFolderLocation
      * @param projectTitle
-     * @param gameTitle 
+     * @param gameTitle
      */
-    public void createNewProjectAndSetActive(String projectFolderLocation, String projectTitle, String gameTitle);
-    
+    public void createNewProject(String projectFolderLocation, String projectTitle, String gameTitle); // TODO return DaoError
+
+    /**
+     * TODO This opens and loads the project.
+     *
+     * @param projectFileURI
+     * @return
+     */
+    public DaoError loadProjectByProjectFileURI(String projectFileURI);
+
     /**
      * TODO
-     * This opens and loads the project.
-     * 
-     * @param projectFileURI 
+     *
+     * @param tileID
+     * @return
      */
-    public void loadProjectByProjectFileURI(String projectFileURI);
-    
+    public JRPGTile getTile(int tileID);
+
     /**
      * TODO
      *
      * @return
      */
     public DaoError saveActiveProject();
-    
+
     /**
      * TODO
      *
      * @return
      */
     public JRPGProject getActiveProject();
-    
+
 }

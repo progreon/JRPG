@@ -8,9 +8,11 @@ package be.willima.jrpgdatabase.model;
 import java.awt.Color;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
+import java.util.Map;
+import java.util.TreeMap;
 
 /**
- * TODO
+ * TODO check stuff here ... This can be better!
  *
  * @author marco
  */
@@ -18,8 +20,8 @@ public class JRPGTile {
 
     public final static int COLOR_COUNT = 4;
 
-    public static JRPGTile VOID = new JRPGTile(0, "VOID");
-    public static JRPGTile GRASS = new JRPGTile(1, "GRASS");
+//    public static JRPGTile VOID = new JRPGTile(0, "VOID");
+//    public static JRPGTile GRASS = new JRPGTile(1, "GRASS");
 
     private final int tileID;
     private final String tileName;
@@ -31,6 +33,9 @@ public class JRPGTile {
     // For animated sprite
 //    private int[][] spriteSequence;
 
+    private Image image = null;
+    private Map<Integer, Image> scaledImages = null; // scale => scaled image
+
     /**
      * TODO private/public??
      *
@@ -41,9 +46,7 @@ public class JRPGTile {
         this.tileID = tileID;
         this.tileName = name;
         colors = new Color[COLOR_COUNT];
-        for (int i = 0; i < colors.length; i++) {
-            colors[i] = Color.BLACK;
-        }
+        colors[0] = Color.BLACK;
         pixels = new int[JRPGMap.TILE_SIZE * JRPGMap.TILE_SIZE];
     }
 
@@ -106,16 +109,34 @@ public class JRPGTile {
         return this.pixels;
     }
 
-    public Image getImage() {
-        BufferedImage img = new BufferedImage(JRPGMap.TILE_SIZE, JRPGMap.TILE_SIZE, BufferedImage.TYPE_INT_RGB);
+    private void loadImage() {
+        image = new BufferedImage(JRPGMap.TILE_SIZE, JRPGMap.TILE_SIZE, BufferedImage.TYPE_INT_RGB);
 
         int[] rgbArray = new int[pixels.length];
         for (int i = 0; i < pixels.length; i++) {
             rgbArray[i] = colors[pixels[i]].getRGB();
         }
-        img.setRGB(0, 0, JRPGMap.TILE_SIZE, JRPGMap.TILE_SIZE, rgbArray, 0, JRPGMap.TILE_SIZE);
+        ((BufferedImage) image).setRGB(0, 0, JRPGMap.TILE_SIZE, JRPGMap.TILE_SIZE, rgbArray, 0, JRPGMap.TILE_SIZE);
+    }
 
-        return img;
+    public Image getImage() {
+        if (image == null) {
+            loadImage();
+        }
+        return image;
+    }
+
+    public Image getScaledImage(int scale) {
+        if (scaledImages == null) {
+            scaledImages = new TreeMap<>();
+        }
+        Image scaledImg = scaledImages.get(scale);
+        if (scaledImg == null) { // Put it in the map and return it
+            Image img = getImage();
+            scaledImg = getImage().getScaledInstance(img.getWidth(null) * scale, img.getHeight(null) * scale, Image.SCALE_FAST);
+            scaledImages.put(scale, scaledImg);
+        }
+        return scaledImg;
     }
 
 }
