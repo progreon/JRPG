@@ -9,6 +9,8 @@ import be.willima.jrpgdatabase.model.JRPGMap;
 import be.willima.jrpgdatabase.model.JRPGProject;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.DefaultListSelectionModel;
@@ -136,7 +138,7 @@ public class MapEditorPanel extends JPanel {
 
             JCheckBox chkRaster = new JCheckBox("Raster");
             chkRaster.setToolTipText("Show raster");
-            chkRaster.addChangeListener((ChangeEvent e) -> {
+            chkRaster.addActionListener((ActionEvent e) -> {
                 mapPanel.setShowRaster(((JCheckBox) e.getSource()).getModel().isSelected());
             });
             this.add(chkRaster);
