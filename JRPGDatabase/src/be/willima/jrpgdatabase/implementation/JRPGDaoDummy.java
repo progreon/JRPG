@@ -53,8 +53,8 @@ public class JRPGDaoDummy implements JRPGDao {
         // TODO Make a new dummy project seperately, and open it from within the GUI?
         String projectFolderURI = projectFolderLocation + "/" + projectTitle + "/";
         if (!projects.containsKey(projectFolderURI)) {
-            JRPGProject newProject = new JRPGProject(this, projectFolderLocation, projectTitle, gameTitle, null);
-            projects.put(newProject.getProjectFolderURI(), newProject);
+            JRPGProject newProject = new JRPGProject(this, projectTitle, gameTitle, 8, 4, null);
+            projects.put(projectFolderURI, newProject);
             List<JRPGMap> maps = newProject.getMaps();
             maps.add(createDummyMap(newProject));
             maps.add(createRandomDummyMap(newProject));
@@ -155,7 +155,7 @@ public class JRPGDaoDummy implements JRPGDao {
             0, 1, 0, 1, 0, 1, 0, 1,
             1, 0, 1, 0, 1, 0, 1, 0};
         Color[] voidColors = new Color[]{Color.BLACK, Color.DARK_GRAY};
-        JRPGTile voidTile = new JRPGTile(voidTileID, "VOID", voidPixels, voidColors);
+        JRPGTile voidTile = new JRPGTile(voidTileID, "VOID", voidPixels, voidColors, 8, 4);
         tiles.put(voidTile.getTileID(), voidTile);
 
         numTiles++;
@@ -171,7 +171,7 @@ public class JRPGDaoDummy implements JRPGDao {
             0, 0, 1, 0, 0, 0, 0, 0,
             0, 0, 0, 0, 0, 0, 0, 0};
         Color[] grassColors = new Color[]{Color.GREEN, Color.GRAY};
-        JRPGTile grassTile = new JRPGTile(grassTileID, "GRASS", grassPixels, grassColors);
+        JRPGTile grassTile = new JRPGTile(grassTileID, "GRASS", grassPixels, grassColors, 8, 4);
         tiles.put(grassTile.getTileID(), grassTile);
 
         numTiles++;
@@ -187,7 +187,7 @@ public class JRPGDaoDummy implements JRPGDao {
             0, 1, 1, 0, 0, 0, 0, 0,
             0, 0, 0, 0, 0, 0, 0, 0};
         Color[] stoneColors = new Color[]{Color.GRAY, Color.LIGHT_GRAY};
-        JRPGTile stoneTile = new JRPGTile(stoneTileID, "STONE", stonePixels, stoneColors);
+        JRPGTile stoneTile = new JRPGTile(stoneTileID, "STONE", stonePixels, stoneColors, 8, 4);
         tiles.put(stoneTile.getTileID(), stoneTile);
 
         numTiles++;
@@ -203,7 +203,7 @@ public class JRPGDaoDummy implements JRPGDao {
             0, 0, 0, 0, 0, 1, 1, 0,
             0, 0, 0, 0, 0, 0, 0, 0};
         Color[] waterColors = new Color[]{Color.BLUE, Color.CYAN};
-        JRPGTile waterTile = new JRPGTile(waterTileID, "WATER", waterPixels, waterColors);
+        JRPGTile waterTile = new JRPGTile(waterTileID, "WATER", waterPixels, waterColors, 8, 4);
         tiles.put(waterTile.getTileID(), waterTile);
 
         numTiles++;

@@ -19,65 +19,41 @@ import java.util.List;
  */
 public class JRPGProject {
 
+    private int tileSize = 8;
+    private int tileColorCount = 4;
+
     private JRPGDao dao;
-    private final String projectFolderLocation;
     private final String projectTitle;
     private String gameTitle;
     private final List<JRPGMap> maps;
-
-//    /**
-//     * TODO
-//     *
-//     * @param projectFolderLocation
-//     * @param projectTitle
-//     * @param gameTitle
-//     * @param maps
-//     */
-//    public JRPGProject(String projectFolderLocation, String projectTitle, String gameTitle, List<JRPGMap> maps) {
-//        this.projectFolderLocation = projectFolderLocation;
-//        this.projectTitle = projectTitle;
-//        this.gameTitle = gameTitle;
-//        if (maps == null) {
-//            this.maps = new ArrayList<>();
-//        } else {
-//            this.maps = maps;
-//        }
-//    }
 
     /**
      * TODO
      *
      * @param dao
-     * @param projectFolderLocation
      * @param projectTitle
      * @param gameTitle
      * @param maps
      */
-    public JRPGProject(JRPGDao dao, String projectFolderLocation, String projectTitle, String gameTitle, List<JRPGMap> maps) {
+    public JRPGProject(JRPGDao dao, String projectTitle, String gameTitle, int tileSize, int tileColorCount, List<JRPGMap> maps) {
         if (dao == null) {
             throw new RuntimeException("The JRPGDao cannot be null!");
         }
         this.dao = dao;
-        this.projectFolderLocation = projectFolderLocation;
+//        this.projectFolderLocation = projectFolderLocation;
         this.projectTitle = projectTitle;
         this.gameTitle = gameTitle;
+        this.tileSize = tileSize;
+        this.tileColorCount = tileColorCount;
         if (maps == null) {
             this.maps = new ArrayList<>();
         } else {
             this.maps = maps;
         }
     }
-    
-    public String getProjectFolderLocation() {
-        return this.projectFolderLocation;
-    }
 
     public String getProjectTitle() {
         return this.projectTitle;
-    }
-
-    public String getProjectFolderURI() {
-        return this.projectFolderLocation + "/" + this.projectTitle + "/";
     }
 
     public String getGameTitle() {
@@ -86,6 +62,14 @@ public class JRPGProject {
 
     public void setGameTitle(String gameTitle) {
         this.gameTitle = gameTitle;
+    }
+    
+    public int getTileSize() {
+        return this.tileSize;
+    }
+    
+    public int getTileColorCount() {
+        return this.tileColorCount;
     }
 
     public List<JRPGMap> getMaps() {
@@ -99,7 +83,7 @@ public class JRPGProject {
 
         return newMap;
     }
-    
+
     public JRPGTile getTile(int tileID) {
         return dao.getTile(tileID);
     }

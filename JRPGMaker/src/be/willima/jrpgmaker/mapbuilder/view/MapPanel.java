@@ -74,31 +74,31 @@ public class MapPanel extends JPanel {
 
     private void init() { // TODO ?, enkel sizes zetten voorlopig...
         System.out.println("init...");
-        int width = map == null ? 0 : map.getWidth();
-        int height = map == null ? 0 : map.getHeight();
-        int scaledTileSize = JRPGMap.TILE_SIZE * scale;
-        int dimWidth = width * scaledTileSize;
-        int dimHeight = height * scaledTileSize;
-        this.setSize(new Dimension(dimWidth, dimHeight));
-        this.setPreferredSize(new Dimension(dimWidth, dimHeight));
-        this.setMinimumSize(new Dimension(dimWidth, dimHeight));
-        this.setMaximumSize(new Dimension(dimWidth, dimHeight));
+        if (map != null) {
+            int width = map.getWidth();
+            int height = map.getHeight();
+            int scaledTileSize = map.getProject().getTileSize() * scale;
+            int dimWidth = width * scaledTileSize;
+            int dimHeight = height * scaledTileSize;
+            this.setSize(new Dimension(dimWidth, dimHeight));
+            this.setPreferredSize(new Dimension(dimWidth, dimHeight));
+            this.setMinimumSize(new Dimension(dimWidth, dimHeight));
+            this.setMaximumSize(new Dimension(dimWidth, dimHeight));
 
-        // Create the image of the selector
-        imgSelector = new BufferedImage(scaledTileSize, scaledTileSize, BufferedImage.TYPE_INT_ARGB);
-        Graphics2D g2 = imgSelector.createGraphics();
-        g2.setColor(Color.BLACK);
-        g2.drawRect(0, 0, scaledTileSize - 1, scaledTileSize - 1);
-        g2.setColor(Color.WHITE);
-        g2.drawRect(1, 1, scaledTileSize - 3, scaledTileSize - 3);
-        g2.drawRect(2, 2, scaledTileSize - 5, scaledTileSize - 5);
-        g2.setColor(Color.BLACK);
-        g2.drawRect(3, 3, scaledTileSize - 7, scaledTileSize - 7);
-        g2.dispose();
+            // Create the image of the selector
+            imgSelector = new BufferedImage(scaledTileSize, scaledTileSize, BufferedImage.TYPE_INT_ARGB);
+            Graphics2D g2 = imgSelector.createGraphics();
+            g2.setColor(Color.BLACK);
+            g2.drawRect(0, 0, scaledTileSize - 1, scaledTileSize - 1);
+            g2.setColor(Color.WHITE);
+            g2.drawRect(1, 1, scaledTileSize - 3, scaledTileSize - 3);
+            g2.drawRect(2, 2, scaledTileSize - 5, scaledTileSize - 5);
+            g2.setColor(Color.BLACK);
+            g2.drawRect(3, 3, scaledTileSize - 7, scaledTileSize - 7);
+            g2.dispose();
 
-        // Create the image of the raster
-        if (getWidth() > 0 && getHeight() > 0) {
-            imgRaster = new BufferedImage(getWidth(), getHeight(), BufferedImage.TYPE_INT_ARGB);
+            // Create the image of the raster
+            imgRaster = new BufferedImage(dimWidth, dimHeight, BufferedImage.TYPE_INT_ARGB);
             g2 = imgRaster.createGraphics();
 
             g2.setColor(new Color(0x000000));
@@ -111,7 +111,12 @@ public class MapPanel extends JPanel {
                 g2.drawLine(0, y - 1, getWidth(), y - 1);
                 g2.drawLine(0, y, getWidth(), y);
             }
+            g2.dispose();
         } else {
+            this.setSize(new Dimension(0, 0));
+            this.setPreferredSize(new Dimension(0, 0));
+            this.setMinimumSize(new Dimension(0, 0));
+            this.setMaximumSize(new Dimension(0, 0));
             imgRaster = null;
         }
 
@@ -119,7 +124,7 @@ public class MapPanel extends JPanel {
     }
 
     private Point getTilePixelPoint(int tileX, int tileY) {
-        int scaledTileSize = JRPGMap.TILE_SIZE * scale;
+        int scaledTileSize = map.getProject().getTileSize() * scale;
         int x = tileX * scaledTileSize;
         int y = tileY * scaledTileSize;
 
@@ -131,7 +136,7 @@ public class MapPanel extends JPanel {
     }
 
     private Point getMapPoint(int tilePixelX, int tilePixelY) {
-        int scaledTileSize = JRPGMap.TILE_SIZE * scale;
+        int scaledTileSize = map.getProject().getTileSize() * scale;
         int x = tilePixelX / scaledTileSize;
         int y = tilePixelY / scaledTileSize;
 

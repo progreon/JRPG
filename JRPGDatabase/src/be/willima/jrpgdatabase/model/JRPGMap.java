@@ -12,9 +12,9 @@ package be.willima.jrpgdatabase.model;
  */
 public class JRPGMap {
 
-    // TODO Waar dit best zetten?
-    public static int TILE_SIZE = 8;
+    // TODO Waar dit best zetten? Project!
 
+    // Dit zou niet nodig moeten zijn op deze plek?
     public static final int DEFAULT_ID = -1;
     public static final int DEFAULT_WIDTH = 16;
     public static final int DEFAULT_HEIGHT = DEFAULT_WIDTH;
@@ -122,32 +122,12 @@ public class JRPGMap {
 
         return tile;
     }
+    
+    public JRPGProject getProject() {
+        return this.project;
+    }
 
 //    public void setTile(JRPGTile tile, int x, int y) {
 //        // TODO change tile in array, notify watchers I'm changed?
-//    }
-//
-//    public void addRow(int rowNo) {
-//        // TODO
-//        this.height++;
-//        throw new UnsupportedOperationException("addRow(int rowNo): Not supported yet.");
-//    }
-//
-//    public void deleteRow(int rowNo) {
-//        // TODO
-//        this.height--;
-//        throw new UnsupportedOperationException("deleteRow(int rowNo): Not supported yet.");
-//    }
-//
-//    public void addColumn(int colNo) {
-//        // TODO
-//        this.width++;
-//        throw new UnsupportedOperationException("addColumn(int colNo): Not supported yet.");
-//    }
-//
-//    public void deleteColumn(int colNo) {
-//        // TODO
-//        this.width--;
-//        throw new UnsupportedOperationException("deleteColumn(int colNo): Not supported yet.");
 //    }
 }
