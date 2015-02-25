@@ -30,7 +30,7 @@ public class JRPGTile {
     // For animated sprite
 //    private int[][] spriteSequence;
 
-    private Image image = null;
+    private BufferedImage image = null;
     private Map<Integer, Image> scaledImages = null; // scale => scaled image
 
     /**
@@ -115,10 +115,10 @@ public class JRPGTile {
         for (int i = 0; i < pixels.length; i++) {
             rgbArray[i] = colors[pixels[i]].getRGB();
         }
-        ((BufferedImage) image).setRGB(0, 0, tileSize, tileSize, rgbArray, 0, tileSize);
+        image.setRGB(0, 0, tileSize, tileSize, rgbArray, 0, tileSize);
     }
 
-    public Image getImage() {
+    public BufferedImage getImage() {
         if (image == null) {
             loadImage();
         }

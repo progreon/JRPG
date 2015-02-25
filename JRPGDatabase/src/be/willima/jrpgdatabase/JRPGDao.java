@@ -44,6 +44,8 @@ public interface JRPGDao {
      * @return
      */
     public DaoError loadProjectByProjectFileURI(String projectFileURI);
+    
+    public DaoError loadProjectByProjectFolderURI(String projectFolderURI);
 
     /**
      * TODO

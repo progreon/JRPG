@@ -79,6 +79,10 @@ public class MapEditorPanel extends JPanel {
         }
         loadMap();
     }
+    
+    public JRPGMap getActiveMap() {
+        return activeMap;
+    }
 
     public void changeScale(int newScale) {
         mapPanel.updateScale(newScale);

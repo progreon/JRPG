@@ -6,8 +6,9 @@
 package be.willima.jrpgdatabase.model;
 
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 
 /**
@@ -25,20 +26,16 @@ public class SpriteSheet {
 
     private int[] pixels;
 
-    public SpriteSheet(String path) throws IOException {
+    public SpriteSheet(String path) {
         this.path = path;
 
-        BufferedImage image;
-//        try {
-        image = ImageIO.read(new File(path));
-//        } catch (IOException ex) {
-//            Logger.getLogger(SpriteSheet.class.getName()).log(Level.SEVERE, null, ex);
-//        }
-
-        // ??? TODO
-//        if (image == null) {
-//            return;
-//        }
+        BufferedImage image = null;
+        try {
+            System.out.println(path);
+            image = ImageIO.read(SpriteSheet.class.getResourceAsStream(path));
+        } catch (IOException ex) {
+            Logger.getLogger(SpriteSheet.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
         this.width = image.getWidth();
         this.height = image.getHeight();
@@ -46,6 +43,10 @@ public class SpriteSheet {
 
         for (int i = 0; i < pixels.length; i++) {
             pixels[i] = (pixels[i] & 0xff) / (256 / COLOR_COUNT);
+        }
+        
+        for (int i=0; i<8; i++) {
+            System.out.println(pixels[i]);
         }
     }
 

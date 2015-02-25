@@ -29,8 +29,9 @@ public class JRPGDaoDummy implements JRPGDao {
 
     //// THINGS THAT NORMALLY SHOULD BE IN ACTUAL DATABASE ////
     private final Map<String, JRPGProject> projects; // URI -> JRPGProject
+    private JRPGProject dummyProject;
 //    private Map<Integer, List<JRPGMap>> mapsPerProject; // Not really needed
-    private Map<Integer, JRPGTile> tiles; // Tile-ID -> JRPGTile
+    private Map<Integer, JRPGTile> tiles; // Tile-ID -> JRPGTile // TODO Change to array!
     private int numTiles;
     //// END OF THOSE THINGS ////
 
@@ -76,6 +77,17 @@ public class JRPGDaoDummy implements JRPGDao {
     }
 
     @Override
+    public DaoError loadProjectByProjectFolderURI(String projectFolderURI) {
+        if (projects.get(projectFolderURI) != null) {
+            activeProject = projects.get(projectFolderURI);
+            return DaoError.NO_ERROR;
+        } else {
+            activeProject = dummyProject;
+            return DaoError.NO_ERROR;
+        }
+    }
+
+    @Override
     public JRPGProject getActiveProject() {
         return this.activeProject;
     }
@@ -94,6 +106,10 @@ public class JRPGDaoDummy implements JRPGDao {
     private void createDummyData() {
         // TODO More dummy data!
         createDummyTiles();
+        dummyProject = new JRPGProject(this, "Dummy Project", "Dummy Game", 8, 4, null);
+        List<JRPGMap> maps = dummyProject.getMaps();
+        maps.add(createDummyMap(dummyProject));
+        maps.add(createRandomDummyMap(dummyProject));
     }
 
     private JRPGMap createMapFromIDs(JRPGProject project, int mapID, String mapName, int[][] mapTileIDs) {
@@ -126,7 +142,7 @@ public class JRPGDaoDummy implements JRPGDao {
             {0, 3, 3, 1, 1, 1, 1, 3, 3, 0},
             {0, 3, 3, 3, 3, 3, 3, 3, 3, 0},
             {0, 0, 0, 0, 0, 0, 0, 0, 0, 0}};
-        return createMapFromIDs(project, 1, "Dummy map", mapTileIDs);
+        return createMapFromIDs(project, 0, "Dummy map", mapTileIDs);
     }
 
     private JRPGMap createRandomDummyMap(JRPGProject project) {
@@ -138,7 +154,7 @@ public class JRPGDaoDummy implements JRPGDao {
                 mapTileIDs[i][j] = rg.nextInt(numTiles);
             }
         }
-        return createMapFromIDs(project, 2, "Random map", mapTileIDs);
+        return createMapFromIDs(project, 1, "Random map", mapTileIDs);
     }
 
     private void createDummyTiles() {
@@ -146,14 +162,14 @@ public class JRPGDaoDummy implements JRPGDao {
         numTiles = 0;
         // VOID-tile
         int voidTileID = numTiles;
-        int[] voidPixels = new int[]{0, 1, 0, 1, 0, 1, 0, 1,
-            1, 0, 1, 0, 1, 0, 1, 0,
-            0, 1, 0, 1, 0, 1, 0, 1,
-            1, 0, 1, 0, 1, 0, 1, 0,
-            0, 1, 0, 1, 0, 1, 0, 1,
-            1, 0, 1, 0, 1, 0, 1, 0,
-            0, 1, 0, 1, 0, 1, 0, 1,
-            1, 0, 1, 0, 1, 0, 1, 0};
+        int[] voidPixels = new int[]{0, 0, 1, 1, 0, 0, 1, 1,
+            0, 0, 1, 1, 0, 0, 1, 1,
+            1, 1, 0, 0, 1, 1, 0, 0,
+            1, 1, 0, 0, 1, 1, 0, 0,
+            0, 0, 1, 1, 0, 0, 1, 1,
+            0, 0, 1, 1, 0, 0, 1, 1,
+            1, 1, 0, 0, 1, 1, 0, 0,
+            1, 1, 0, 0, 1, 1, 0, 0};
         Color[] voidColors = new Color[]{Color.BLACK, Color.DARK_GRAY};
         JRPGTile voidTile = new JRPGTile(voidTileID, "VOID", voidPixels, voidColors, 8, 4);
         tiles.put(voidTile.getTileID(), voidTile);
@@ -207,6 +223,39 @@ public class JRPGDaoDummy implements JRPGDao {
         tiles.put(waterTile.getTileID(), waterTile);
 
         numTiles++;
+
+        // FANCY-tile
+        int fancyTileID = numTiles;
+        int[] fancyPixels = new int[]{3, 3, 3, 3, 3, 3, 3, 3,
+            3, 2, 2, 2, 2, 2, 2, 3,
+            3, 2, 1, 1, 1, 1, 2, 3,
+            3, 2, 1, 0, 0, 1, 2, 3,
+            3, 2, 1, 0, 0, 1, 2, 3,
+            3, 2, 1, 1, 1, 1, 2, 3,
+            3, 2, 2, 2, 2, 2, 2, 3,
+            3, 3, 3, 3, 3, 3, 3, 3};
+        Color[] fancyColors = new Color[]{new Color(0xffffff), new Color(0xffff00), new Color(0x00ffff), new Color(0xff00ff)};
+        JRPGTile fancyTile = new JRPGTile(fancyTileID, "FANCY", fancyPixels, fancyColors, 8, 4);
+        tiles.put(fancyTile.getTileID(), fancyTile);
+
+        numTiles++;
+
+        // FANCY-tile
+        int RTileID = numTiles;
+        int[] RPixels = new int[]{3, 2, 2, 2, 2, 2, 2, 3,
+            2, 0, 1, 1, 1, 1, 0, 2,
+            2, 0, 1, 0, 0, 1, 0, 2,
+            2, 0, 1, 1, 1, 1, 0, 2,
+            2, 0, 1, 1, 0, 0, 0, 2,
+            2, 0, 1, 0, 1, 0, 0, 2,
+            2, 0, 1, 0, 0, 1, 0, 2,
+            3, 2, 2, 2, 2, 2, 2, 3};
+        Color[] RColors = new Color[]{new Color(0xffffff), new Color(0xffff00), new Color(0x00ffff), new Color(0xff00ff)};
+        JRPGTile RTile = new JRPGTile(RTileID, "R", RPixels, RColors, 8, 4);
+        tiles.put(RTile.getTileID(), RTile);
+
+        numTiles++;
+        System.out.println("numTiles: " + numTiles);
     }
 
 }
