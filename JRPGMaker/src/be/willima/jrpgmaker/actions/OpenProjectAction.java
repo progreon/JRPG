@@ -5,22 +5,23 @@
  */
 package be.willima.jrpgmaker.actions;
 
+import be.willima.jrpgmaker.JRPGMakerS;
 import java.awt.event.ActionEvent;
-import javax.swing.AbstractAction;
 import javax.swing.JOptionPane;
 
 /**
  *
  * @author marco
  */
-public class OpenProjectAction extends AbstractAction {
+public class OpenProjectAction extends JRPGAction {
 
-    public OpenProjectAction() {
-        super("Open project...");
+    public OpenProjectAction(JRPGMakerS frame) {
+        super("Open project...", frame);
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
+        // TODO
         JOptionPane.showMessageDialog(null, e.getActionCommand());
     }
     

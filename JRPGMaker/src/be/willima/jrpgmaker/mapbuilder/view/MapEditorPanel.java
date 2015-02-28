@@ -5,12 +5,12 @@
  */
 package be.willima.jrpgmaker.mapbuilder.view;
 
+import be.willima.jrpgmaker.mapbuilder.JRPGMapBuilder;
 import be.willima.jrpgdatabase.model.JRPGMap;
 import be.willima.jrpgdatabase.model.JRPGProject;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.DefaultListSelectionModel;
@@ -29,7 +29,7 @@ import javax.swing.table.AbstractTableModel;
  *
  * @author marco
  */
-public class MapEditorPanel extends JPanel {
+public class MapEditorPanel extends JPanel implements JRPGMapBuilder {
     // TODO undo & redo?
 
     private JRPGProject project;
@@ -63,6 +63,7 @@ public class MapEditorPanel extends JPanel {
         loadMap();
     }
 
+    @Override
     public void setProject(JRPGProject project) {
         this.project = project;
         if (project != null && !project.getMaps().isEmpty()) {
@@ -71,6 +72,7 @@ public class MapEditorPanel extends JPanel {
         loadMap();
     }
 
+    @Override
     public void changeToMap(int mapIndex) {
         if (mapIndex >= 0 && mapIndex < project.getMaps().size()) {
             activeMap = project.getMaps().get(mapIndex);
@@ -80,10 +82,12 @@ public class MapEditorPanel extends JPanel {
         loadMap();
     }
     
+    @Override
     public JRPGMap getActiveMap() {
         return activeMap;
     }
 
+    @Override
     public void changeScale(int newScale) {
         mapPanel.updateScale(newScale);
         mapViewPanel.setPreferredSize(mapPanel.getSize());

@@ -5,23 +5,38 @@
  */
 package be.willima.jrpgmaker.actions;
 
+import be.willima.jrpgmaker.JRPGMakerS;
 import java.awt.event.ActionEvent;
-import javax.swing.AbstractAction;
-import javax.swing.JOptionPane;
+import java.io.File;
+import javax.swing.JFileChooser;
 
 /**
  *
  * @author marco
  */
-public class NewProjectAction extends AbstractAction {
+public class NewProjectAction extends JRPGAction {
 
-    public NewProjectAction() {
-        super("New project...");
+    public NewProjectAction(JRPGMakerS frame) {
+        super("New project...", frame);
     }
 
     @Override
-    public void actionPerformed(ActionEvent e) {
-        JOptionPane.showMessageDialog(null, e.getActionCommand());
+    public void actionPerformed(ActionEvent e) { // TODO most of the code to the DAO
+        String projectName = "Test Project Folder";
+        JFileChooser fileChooser = new JFileChooser(System.getProperty("user.home"));
+        fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+        fileChooser.showSaveDialog(null);
+        File projectFolderParent = fileChooser.getSelectedFile();
+        if (projectFolderParent != null) {
+            System.out.println("Setting up project in " + projectFolderParent.getPath() + " ...");
+            File projectFolder = new File(projectFolderParent.getPath() + File.separator + projectName);
+            if (projectFolder.mkdir()) {
+                System.out.println("Project folder was created succesfully!");
+                System.out.println("Creating subfolders ...");
+            } else {
+                System.out.println("Failed to create project folder!");
+            }
+        }
     }
-    
+
 }

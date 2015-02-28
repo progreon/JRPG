@@ -14,7 +14,7 @@ and open the template in the editor.
         <separator />
         <action>be.willima.jrpgmaker.actions.ExitAction</action>
     </menu>
-    <menu name="Edit">
+<!--    <menu name="Edit">
         <action>be.willima.jrpgmaker.actions.NewMapAction</action>
         <action>be.willima.jrpgmaker.actions.DeleteMapAction</action>
         <menu name="Edit map">
@@ -24,8 +24,11 @@ and open the template in the editor.
             <action>be.willima.jrpgmaker.actions.DeleteColumnsAction</action>
             <action>be.willima.jrpgmaker.actions.DeleteRowsAction</action>
         </menu>
+    </menu>-->
+    <menu name="Game">
+        <action>be.willima.jrpgmaker.actions.PlayAction</action>
     </menu>
-    <menu name="Help">
+<!--    <menu name="Help">
         <action>be.willima.jrpgmaker.actions.AboutAction</action>
-    </menu>
+    </menu>-->
 </menubar>

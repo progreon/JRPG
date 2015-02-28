@@ -19,6 +19,7 @@ import java.awt.event.WindowEvent;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferInt;
+import java.io.File;
 //import java.util.logging.Level;
 //import java.util.logging.Logger;
 import javax.swing.JFrame;
@@ -52,6 +53,12 @@ public class JRPGGame extends Canvas implements Runnable {
     public Level level;
 
     public JRPGGame(JRPGProject project) {
+        String jarFileURI = JRPGGame.class.getProtectionDomain().getCodeSource().getLocation().getFile();
+        String jarFileName = new File(jarFileURI).getName();
+        int i = jarFileURI.lastIndexOf('/');
+        String jarFolderURI = jarFileURI.substring(0, i);
+        System.out.println(jarFileURI);
+        System.out.println(jarFileName + " in folder " + jarFolderURI);
         this.project = project;
 
         setMinimumSize(new Dimension(WIDTH * SCALE, HEIGHT * SCALE));

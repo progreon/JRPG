@@ -5,38 +5,21 @@
  */
 package be.willima.jrpgmaker.mapbuilder;
 
-import be.willima.jrpgdatabase.JRPGDao;
-import be.willima.jrpgdatabase.JRPGDatabaseFactory;
-import be.willima.jrpgmaker.mapbuilder.view.MapEditorPanel;
-import java.awt.HeadlessException;
-import javax.swing.JFrame;
+import be.willima.jrpgdatabase.model.JRPGMap;
+import be.willima.jrpgdatabase.model.JRPGProject;
 
 /**
  *
  * @author marco
  */
-public class JRPGMapBuilder extends JFrame {
+public interface JRPGMapBuilder {
 
-    public JRPGMapBuilder() throws HeadlessException {
-        super("JRPG Map Builder");
-        
-        JRPGDao dao = JRPGDatabaseFactory.getJRPGDao(JRPGDatabaseFactory.DaoType.DUMMY);
-        
-        this.setContentPane(new MapEditorPanel(dao.getActiveProject()));
-        
-        pack();
-//        setResizable(false);
-        setLocationRelativeTo(null);
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
-    }
+    void changeScale(int newScale);
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String[] args) {
-        // TODO code application logic here
-        JRPGMapBuilder mapBuilder = new JRPGMapBuilder();
-        mapBuilder.setVisible(true);
-    }
+    void changeToMap(int mapIndex);
+
+    JRPGMap getActiveMap();
+
+    void setProject(JRPGProject project);
     
 }

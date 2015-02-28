@@ -7,21 +7,22 @@ package be.willima.jrpgmaker.actions;
 
 import be.willima.jrpgmaker.JRPGMakerS;
 import java.awt.event.ActionEvent;
-import java.awt.event.WindowEvent;
+import javax.swing.AbstractAction;
 
 /**
  *
  * @author marco
  */
-public class ExitAction extends JRPGAction {
+public abstract class JRPGAction extends AbstractAction {
+    
+    protected JRPGMakerS frame;
 
-    public ExitAction(JRPGMakerS frame) {
-        super("Exit", frame);
+    protected JRPGAction(String name, JRPGMakerS frame) {
+        super(name);
+        this.frame = frame;
     }
 
     @Override
-    public void actionPerformed(ActionEvent e) {
-        frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
-    }
-
+    public abstract void actionPerformed(ActionEvent e);
+    
 }

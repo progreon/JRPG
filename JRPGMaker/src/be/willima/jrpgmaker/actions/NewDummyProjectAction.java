@@ -3,22 +3,23 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package be.willima.jrpgmaker.mapbuilder.actions;
+package be.willima.jrpgmaker.actions;
 
+import be.willima.jrpgmaker.JRPGMakerS;
 import java.awt.event.ActionEvent;
-import javax.swing.AbstractAction;
-import javax.swing.JOptionPane;
 
 /**
- * TODO
  *
  * @author marco
  */
-public class JRPGMapAction extends AbstractAction {
+public class NewDummyProjectAction extends JRPGAction {
+
+    public NewDummyProjectAction(JRPGMakerS frame) {
+        super("New dummy project...", frame);
+    }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        JOptionPane.showMessageDialog(null, e.getActionCommand());
     }
     
 }

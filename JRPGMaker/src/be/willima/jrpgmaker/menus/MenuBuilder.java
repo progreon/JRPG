@@ -5,11 +5,15 @@
  */
 package be.willima.jrpgmaker.menus;
 
-import java.io.File;
+import be.willima.jrpgdatabase.JRPGDao;
+import be.willima.jrpgmaker.JRPGMakerS;
+import be.willima.jrpgmaker.actions.JRPGAction;
 import java.io.IOException;
+import java.io.InputStream;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.Action;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JSeparator;
@@ -27,16 +31,22 @@ import org.xml.sax.SAXException;
  */
 public final class MenuBuilder {
     
+    private final JRPGMakerS makerFrame;
+
+    public MenuBuilder(JRPGMakerS makerFrame) {
+        this.makerFrame = makerFrame;
+    }
+    
     /**
      * TODO
      *
      * @param XmlFileURI
      * @return
      */
-    public static JMenuBar createMenuBar(String XmlFileURI) {
+    public JMenuBar createMenuBar(String XmlFileURI) {
         JMenuBar menuBar = null;
         try {
-            menuBar =  parseXMLToMenuBar(new File(XmlFileURI));
+            menuBar = parseXMLToMenuBar(getClass().getResourceAsStream(XmlFileURI));
         } catch (ParserConfigurationException | IOException | SAXException ex) {
             Logger.getLogger(MenuBuilder.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -49,17 +59,17 @@ public final class MenuBuilder {
      * @param XmlFileURI
      * @return
      */
-    public static JMenu createMenu(String XmlFileURI) {
+    public JMenu createMenu(String XmlFileURI) {
         JMenu menu = null;
         try {
-            menu =  parseXMLToMenu(new File(XmlFileURI));
+            menu =  parseXMLToMenu(getClass().getResourceAsStream(XmlFileURI));
         } catch (ParserConfigurationException | IOException | SAXException ex) {
             Logger.getLogger(MenuBuilder.class.getName()).log(Level.SEVERE, null, ex);
         }
         return menu;
     }
 
-    private static JMenuBar parseXMLToMenuBar(File menuBarXML) throws ParserConfigurationException, IOException, SAXException {
+    private JMenuBar parseXMLToMenuBar(InputStream menuBarXML) throws ParserConfigurationException, IOException, SAXException {
         JMenuBar menuBar = new JMenuBar();
         
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
@@ -79,7 +89,7 @@ public final class MenuBuilder {
         return menuBar;
     }
     
-    private static JMenu parseXMLToMenu(File menuXML) throws ParserConfigurationException, IOException, SAXException {
+    private JMenu parseXMLToMenu(InputStream menuXML) throws ParserConfigurationException, IOException, SAXException {
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         DocumentBuilder builder = factory.newDocumentBuilder();
         Document document = builder.parse(menuXML);
@@ -89,9 +99,9 @@ public final class MenuBuilder {
         return menu;
     }
 
-    private static JMenu createMenuFromNode(Node menuNode) {
+    private JMenu createMenuFromNode(Node menuNode) {
         String menuName = menuNode.getAttributes().getNamedItem("name").getTextContent();
-        System.out.println("creating menu from node: " + menuNode.getNodeName() + ": " + menuName);
+//        System.out.println("creating menu from node: " + menuNode.getNodeName() + ": " + menuName);
         JMenu menu = new JMenu(menuName);
         NodeList menuItems = menuNode.getChildNodes();
         int l = menuItems.getLength();
@@ -101,11 +111,14 @@ public final class MenuBuilder {
                 menu.add(createMenuFromNode(menuItem));
             } else if (menuItem.getNodeName().equals("action")) {
                 String actionClass = menuItem.getTextContent();
-                System.out.println("action class: " + actionClass);
+//                System.out.println("action class: " + actionClass);
                 try {
-                    Action action = (Action) ClassLoader.getSystemClassLoader().loadClass(actionClass).newInstance();
+                    ClassLoader cl = ClassLoader.getSystemClassLoader();
+                    Class c = cl.loadClass(actionClass);
+                    Constructor constr = c.getConstructor(JRPGMakerS.class);
+                    JRPGAction action = (JRPGAction) constr.newInstance(makerFrame);
                     menu.add(action);
-                } catch (InstantiationException | IllegalAccessException | ClassNotFoundException ex) {
+                } catch (NoSuchMethodException | SecurityException | ClassNotFoundException | InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException ex) {
                     Logger.getLogger(MenuBuilder.class.getName()).log(Level.SEVERE, null, ex);
                 }
             } else if (menuItem.getNodeName().equals("separator")) {
