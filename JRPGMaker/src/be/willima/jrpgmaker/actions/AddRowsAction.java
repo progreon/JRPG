@@ -5,23 +5,23 @@
  */
 package be.willima.jrpgmaker.actions;
 
+import be.willima.jrpgmaker.JRPGMaker;
 import java.awt.event.ActionEvent;
-import javax.swing.AbstractAction;
 import javax.swing.JOptionPane;
 
 /**
  *
  * @author marco
  */
-public class AddRowsAction extends AbstractAction {
+public class AddRowsAction extends JRPGAction {
 
-    public AddRowsAction() {
-        super("Add rows...");
+    public AddRowsAction(JRPGMaker maker) {
+        super("Add rows...", maker);
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
         JOptionPane.showMessageDialog(null, e.getActionCommand());
     }
-    
+
 }

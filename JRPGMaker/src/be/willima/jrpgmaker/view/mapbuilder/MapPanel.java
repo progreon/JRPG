@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package be.willima.jrpgmaker.mapbuilder.view;
+package be.willima.jrpgmaker.view.mapbuilder;
 
 import be.willima.jrpgdatabase.model.JRPGMap;
 import java.awt.AlphaComposite;
@@ -22,7 +22,7 @@ import javax.swing.JPanel;
  *
  * @author marco
  */
-public class MapPanel extends JPanel {
+class MapPanel extends JPanel {
 
     private JRPGMap map;
     private int scale = 3;
@@ -73,7 +73,7 @@ public class MapPanel extends JPanel {
     }
 
     private void init() { // TODO ?, enkel sizes zetten voorlopig...
-        System.out.println("init...");
+        System.out.println("init map panel...");
         if (map != null) {
             int width = map.getWidth();
             int height = map.getHeight();

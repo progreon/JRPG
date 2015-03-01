@@ -5,7 +5,7 @@
  */
 package be.willima.jrpgmaker.actions;
 
-import be.willima.jrpgmaker.JRPGMakerS;
+import be.willima.jrpgmaker.JRPGMaker;
 import java.awt.event.ActionEvent;
 import javax.swing.JOptionPane;
 
@@ -15,8 +15,8 @@ import javax.swing.JOptionPane;
  */
 public class CloseProjectAction extends JRPGAction {
 
-    public CloseProjectAction(JRPGMakerS frame) {
-        super("Close project", frame);
+    public CloseProjectAction(JRPGMaker maker) {
+        super("Close project", maker);
     }
 
     @Override
@@ -24,5 +24,5 @@ public class CloseProjectAction extends JRPGAction {
         // TODO
         JOptionPane.showMessageDialog(null, e.getActionCommand());
     }
-    
+
 }

@@ -78,6 +78,7 @@ public class JRPGGame extends Canvas implements Runnable {
             @Override
             public void windowClosing(WindowEvent e) {
                 super.windowClosing(e); //To change body of generated methods, choose Tools | Templates.
+                System.out.println("Game window closing...");
                 stop();
             }
         });

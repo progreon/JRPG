@@ -5,7 +5,7 @@
  */
 package be.willima.jrpgmaker.actions;
 
-import be.willima.jrpgmaker.JRPGMakerS;
+import be.willima.jrpgmaker.JRPGMaker;
 import java.awt.event.ActionEvent;
 
 /**
@@ -14,12 +14,12 @@ import java.awt.event.ActionEvent;
  */
 public class NewDummyProjectAction extends JRPGAction {
 
-    public NewDummyProjectAction(JRPGMakerS frame) {
+    public NewDummyProjectAction(JRPGMaker frame) {
         super("New dummy project...", frame);
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
     }
-    
+
 }

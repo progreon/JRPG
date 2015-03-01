@@ -6,7 +6,7 @@
 package be.willima.jrpgmaker.menus;
 
 import be.willima.jrpgdatabase.JRPGDao;
-import be.willima.jrpgmaker.JRPGMakerS;
+import be.willima.jrpgmaker.JRPGMaker;
 import be.willima.jrpgmaker.actions.JRPGAction;
 import java.io.IOException;
 import java.io.InputStream;
@@ -31,9 +31,9 @@ import org.xml.sax.SAXException;
  */
 public final class MenuBuilder {
     
-    private final JRPGMakerS makerFrame;
+    private final JRPGMaker makerFrame;
 
-    public MenuBuilder(JRPGMakerS makerFrame) {
+    public MenuBuilder(JRPGMaker makerFrame) {
         this.makerFrame = makerFrame;
     }
     
@@ -115,7 +115,7 @@ public final class MenuBuilder {
                 try {
                     ClassLoader cl = ClassLoader.getSystemClassLoader();
                     Class c = cl.loadClass(actionClass);
-                    Constructor constr = c.getConstructor(JRPGMakerS.class);
+                    Constructor constr = c.getConstructor(JRPGMaker.class);
                     JRPGAction action = (JRPGAction) constr.newInstance(makerFrame);
                     menu.add(action);
                 } catch (NoSuchMethodException | SecurityException | ClassNotFoundException | InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException ex) {

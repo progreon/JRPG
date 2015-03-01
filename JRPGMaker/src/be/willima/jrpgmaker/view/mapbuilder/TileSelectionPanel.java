@@ -3,23 +3,22 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package be.willima.jrpgmaker.mapbuilder;
+package be.willima.jrpgmaker.view.mapbuilder;
 
-import be.willima.jrpgdatabase.model.JRPGMap;
 import be.willima.jrpgdatabase.model.JRPGProject;
+import javax.swing.JPanel;
 
 /**
+ * TODO
  *
  * @author marco
  */
-public interface JRPGMapBuilder {
+class TileSelectionPanel extends JPanel {
+    
+    private JRPGProject project;
 
-    void changeScale(int newScale);
-
-    void changeToMap(int mapIndex);
-
-    JRPGMap getActiveMap();
-
-    void setProject(JRPGProject project);
+    public TileSelectionPanel(JRPGProject project) {
+        this.project = project;
+    }
     
 }

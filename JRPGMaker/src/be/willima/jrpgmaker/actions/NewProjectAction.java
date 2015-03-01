@@ -5,7 +5,7 @@
  */
 package be.willima.jrpgmaker.actions;
 
-import be.willima.jrpgmaker.JRPGMakerS;
+import be.willima.jrpgmaker.JRPGMaker;
 import java.awt.event.ActionEvent;
 import java.io.File;
 import javax.swing.JFileChooser;
@@ -16,7 +16,7 @@ import javax.swing.JFileChooser;
  */
 public class NewProjectAction extends JRPGAction {
 
-    public NewProjectAction(JRPGMakerS frame) {
+    public NewProjectAction(JRPGMaker frame) {
         super("New project...", frame);
     }
 

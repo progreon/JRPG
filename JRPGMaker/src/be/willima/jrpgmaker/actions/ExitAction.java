@@ -5,9 +5,8 @@
  */
 package be.willima.jrpgmaker.actions;
 
-import be.willima.jrpgmaker.JRPGMakerS;
+import be.willima.jrpgmaker.JRPGMaker;
 import java.awt.event.ActionEvent;
-import java.awt.event.WindowEvent;
 
 /**
  *
@@ -15,13 +14,13 @@ import java.awt.event.WindowEvent;
  */
 public class ExitAction extends JRPGAction {
 
-    public ExitAction(JRPGMakerS frame) {
-        super("Exit", frame);
+    public ExitAction(JRPGMaker maker) {
+        super("Exit", maker);
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
+        maker.exit();
     }
 
 }

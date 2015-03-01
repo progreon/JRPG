@@ -3,11 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package be.willima.jrpgmaker.mapbuilder.view;
+package be.willima.jrpgmaker.view.mapbuilder;
 
-import be.willima.jrpgmaker.mapbuilder.JRPGMapBuilder;
 import be.willima.jrpgdatabase.model.JRPGMap;
 import be.willima.jrpgdatabase.model.JRPGProject;
+import be.willima.jrpgmaker.controller.MapBuilder;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
@@ -29,10 +29,12 @@ import javax.swing.table.AbstractTableModel;
  *
  * @author marco
  */
-public class MapEditorPanel extends JPanel implements JRPGMapBuilder {
+public class MapBuilderPanel extends JPanel { // The view
     // TODO undo & redo?
 
-    private JRPGProject project;
+    private final MapBuilder mapBuilder; // The controller
+
+    private JRPGProject project = null; // The model
     private JRPGMap activeMap = null;
 
     private final MapPanel mapPanel;
@@ -43,9 +45,10 @@ public class MapEditorPanel extends JPanel implements JRPGMapBuilder {
     private final int MIN_SCALE = 1;
     private final int MAX_SCALE = 5;
 
-    public MapEditorPanel(JRPGProject project) {
+    public MapBuilderPanel(MapBuilder mapBuilder) {
         super(new BorderLayout());
-        this.project = project;
+        this.mapBuilder = mapBuilder;
+        this.project = mapBuilder.getProject();
 
         mapPanel = new MapPanel();
         mapViewPanel = new JPanel(null);
@@ -63,7 +66,6 @@ public class MapEditorPanel extends JPanel implements JRPGMapBuilder {
         loadMap();
     }
 
-    @Override
     public void setProject(JRPGProject project) {
         this.project = project;
         if (project != null && !project.getMaps().isEmpty()) {
@@ -72,7 +74,6 @@ public class MapEditorPanel extends JPanel implements JRPGMapBuilder {
         loadMap();
     }
 
-    @Override
     public void changeToMap(int mapIndex) {
         if (mapIndex >= 0 && mapIndex < project.getMaps().size()) {
             activeMap = project.getMaps().get(mapIndex);
@@ -81,13 +82,11 @@ public class MapEditorPanel extends JPanel implements JRPGMapBuilder {
         }
         loadMap();
     }
-    
-    @Override
+
     public JRPGMap getActiveMap() {
         return activeMap;
     }
 
-    @Override
     public void changeScale(int newScale) {
         mapPanel.updateScale(newScale);
         mapViewPanel.setPreferredSize(mapPanel.getSize());
@@ -159,7 +158,7 @@ public class MapEditorPanel extends JPanel implements JRPGMapBuilder {
 
             @Override
             public int getRowCount() {
-                return project.getMaps().size();
+                return (project == null ? 0 : project.getMaps().size());
             }
 
             @Override

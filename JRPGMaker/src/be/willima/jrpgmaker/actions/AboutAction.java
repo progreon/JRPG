@@ -5,23 +5,23 @@
  */
 package be.willima.jrpgmaker.actions;
 
+import be.willima.jrpgmaker.JRPGMaker;
 import java.awt.event.ActionEvent;
-import javax.swing.AbstractAction;
 import javax.swing.JOptionPane;
 
 /**
  *
  * @author marco
  */
-public class AboutAction extends AbstractAction {
+public class AboutAction extends JRPGAction {
 
-    public AboutAction() {
-        super("About");
+    public AboutAction(JRPGMaker maker) {
+        super("About", maker);
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
         JOptionPane.showMessageDialog(null, e.getActionCommand());
     }
-    
+
 }

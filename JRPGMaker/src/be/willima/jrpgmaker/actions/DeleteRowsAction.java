@@ -5,23 +5,23 @@
  */
 package be.willima.jrpgmaker.actions;
 
+import be.willima.jrpgmaker.JRPGMaker;
 import java.awt.event.ActionEvent;
-import javax.swing.AbstractAction;
 import javax.swing.JOptionPane;
 
 /**
  *
  * @author marco
  */
-public class DeleteRowsAction extends AbstractAction {
+public class DeleteRowsAction extends JRPGAction {
 
-    public DeleteRowsAction() {
-        super("Delete rows...");
+    public DeleteRowsAction(JRPGMaker maker) {
+        super("Delete rows...", maker);
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
         JOptionPane.showMessageDialog(null, e.getActionCommand());
     }
-    
+
 }

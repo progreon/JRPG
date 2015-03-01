@@ -5,23 +5,23 @@
  */
 package be.willima.jrpgmaker.actions;
 
+import be.willima.jrpgmaker.JRPGMaker;
 import java.awt.event.ActionEvent;
-import javax.swing.AbstractAction;
 import javax.swing.JOptionPane;
 
 /**
  *
  * @author marco
  */
-public class DeleteMapAction extends AbstractAction {
+public class DeleteMapAction extends JRPGAction {
 
-    public DeleteMapAction() {
-        super("Delete Map");
+    public DeleteMapAction(JRPGMaker maker) {
+        super("Delete Map", maker);
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
         JOptionPane.showMessageDialog(null, e.getActionCommand());
     }
-    
+
 }

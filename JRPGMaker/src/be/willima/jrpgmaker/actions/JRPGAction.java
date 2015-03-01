@@ -5,7 +5,7 @@
  */
 package be.willima.jrpgmaker.actions;
 
-import be.willima.jrpgmaker.JRPGMakerS;
+import be.willima.jrpgmaker.JRPGMaker;
 import java.awt.event.ActionEvent;
 import javax.swing.AbstractAction;
 
@@ -14,15 +14,15 @@ import javax.swing.AbstractAction;
  * @author marco
  */
 public abstract class JRPGAction extends AbstractAction {
-    
-    protected JRPGMakerS frame;
 
-    protected JRPGAction(String name, JRPGMakerS frame) {
+    protected JRPGMaker maker;
+
+    protected JRPGAction(String name, JRPGMaker maker) {
         super(name);
-        this.frame = frame;
+        this.maker = maker;
     }
 
     @Override
     public abstract void actionPerformed(ActionEvent e);
-    
+
 }

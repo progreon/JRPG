@@ -3,16 +3,17 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package be.willima.jrpgmaker.mapbuilder.view;
+package be.willima.jrpgmaker.view.mapbuilder;
 
 import be.willima.jrpgdatabase.model.JRPGTile;
 import javax.swing.JPanel;
 
 /**
+ * TODO Use this???
  *
  * @author marco
  */
-public class TilePropertiesPanel extends JPanel {
+class TilePropertiesPanel extends JPanel {
     
     private JRPGTile tile;
 
