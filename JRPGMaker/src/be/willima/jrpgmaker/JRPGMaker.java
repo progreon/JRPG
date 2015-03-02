@@ -12,7 +12,6 @@ import be.willima.jrpgmaker.menus.MenuBuilder;
 import java.awt.Dimension;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.io.File;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -34,11 +33,10 @@ public class JRPGMaker {
     private final MapBuilder mapBuilder;
 
     public JRPGMaker(JRPGDao dao) {
-//        super(dao);
         mainFrame = new JFrame("JRPGMaker");
         this.dao = dao;
         // TODO debuggen door eens geen map aan te maken! (simuleert het programma zonder project)
-        dao.createNewProject("dummyfolderlocation", "Dummy project", "Dummy game");
+//        dao.createNewProject("dummyfolderlocation", "Dummy project", "Dummy game");
 
         // TODO to init
 //        mapEditorPanel = new MapBuilderPanel(dao.getActiveProject());
@@ -64,6 +62,10 @@ public class JRPGMaker {
         mainFrame.addWindowListener(new WindowAdapterImpl());
     }
 
+    public JFrame getFrame() {
+        return this.mainFrame;
+    }
+
     public JRPGDao getDao() {
         return this.dao;
     }
@@ -78,15 +80,23 @@ public class JRPGMaker {
 
     private class WindowAdapterImpl extends WindowAdapter {
 
-        private final String exitQuestion = "Are you sure you want to exit?";
-        private final String exitTitle = "Exit";
+//        private final String exitQuestion = "Are you sure you want to exit?";
+//        private final String exitTitle = "Exit";
+        private final String saveQuestion = "Would you like to save before exiting?";
+        private final String saveTitle = "Save and Exit";
 
         @Override
         public void windowClosing(WindowEvent e) {
 //            System.out.println("Closing JRPGMaker...");
-            int result = JOptionPane.showConfirmDialog(mainFrame, exitQuestion, exitTitle, JOptionPane.YES_NO_OPTION);
+//            int result = JOptionPane.showConfirmDialog(mainFrame, exitQuestion, exitTitle, JOptionPane.YES_NO_OPTION);
+            int result = JOptionPane.showConfirmDialog(mainFrame, saveQuestion, saveTitle, JOptionPane.YES_NO_CANCEL_OPTION);
             if (result == JOptionPane.YES_OPTION) {
+                dao.saveActiveProject();
                 mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            } else if (result == JOptionPane.NO_OPTION) {
+                mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            } else {
+
             }
         }
     }
@@ -98,15 +108,15 @@ public class JRPGMaker {
      */
     public static void main(String[] args) {
         // Temp debugging
-        String jarFileURI = JRPGMaker.class.getProtectionDomain().getCodeSource().getLocation().getFile();
-        String jarFileName = new File(jarFileURI).getName();
-        int i = jarFileURI.lastIndexOf('/');
-        String jarFolderURI = jarFileURI.substring(0, i);
-        System.out.println(jarFileURI);
-        System.out.println(jarFileName + " in folder " + jarFolderURI);
+//        String jarFileURI = JRPGMaker.class.getProtectionDomain().getCodeSource().getLocation().getFile();
+//        String jarFileName = new File(jarFileURI).getName();
+//        int i = jarFileURI.lastIndexOf('/');
+//        String jarFolderURI = jarFileURI.substring(0, i);
+//        System.out.println(jarFileURI);
+//        System.out.println(jarFileName + " in folder " + jarFolderURI);
         // End temp debugging
 
-        JRPGDao dao = JRPGDatabaseFactory.getJRPGDao(JRPGDatabaseFactory.DaoType.DUMMY);
+        JRPGDao dao = JRPGDatabaseFactory.getJRPGDao(JRPGDatabaseFactory.DaoType.H2DB);
         System.out.println("Dao: " + dao.getInfo());
 
         JRPGMaker maker = new JRPGMaker(dao);

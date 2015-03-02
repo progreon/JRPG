@@ -22,7 +22,8 @@ public interface JRPGDao {
 
         NO_ERROR,
         NO_SAVE,
-        NO_PROJECT
+        NO_PROJECT,
+        CREATE_ERROR
     }
 
     public String getInfo();
@@ -31,11 +32,12 @@ public interface JRPGDao {
      * TODO This will create a new database for the project (and will also set
      * this project as the current active project).
      *
-     * @param projectFolderLocation
+     * @param projectFolderURI
      * @param projectTitle
      * @param gameTitle
+     * @return
      */
-    public void createNewProject(String projectFolderLocation, String projectTitle, String gameTitle); // TODO return DaoError
+    public DaoError createNewProject(String projectFolderURI, String projectTitle, String gameTitle); // TODO return DaoError
 
     /**
      * TODO This opens and loads the project.
@@ -44,8 +46,21 @@ public interface JRPGDao {
      * @return
      */
     public DaoError loadProjectByProjectFileURI(String projectFileURI);
-    
+
+    /**
+     * TODO
+     *
+     * @param projectFolderURI
+     * @return
+     */
     public DaoError loadProjectByProjectFolderURI(String projectFolderURI);
+
+    /**
+     * TODO
+     *
+     * @return
+     */
+    public DaoError closeActiveProject();
 
     /**
      * TODO

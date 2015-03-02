@@ -49,10 +49,9 @@ public class JRPGDaoDummy implements JRPGDao {
     }
 
     @Override
-    public void createNewProject(String projectFolderLocation, String projectTitle, String gameTitle) {
+    public DaoError createNewProject(String projectFolderURI, String projectTitle, String gameTitle) {
         // Puts dummy data into the new project
         // TODO Make a new dummy project seperately, and open it from within the GUI?
-        String projectFolderURI = projectFolderLocation + "/" + projectTitle + "/";
         if (!projects.containsKey(projectFolderURI)) {
             JRPGProject newProject = new JRPGProject(this, projectTitle, gameTitle, 8, 4, null);
             projects.put(projectFolderURI, newProject);
@@ -60,8 +59,10 @@ public class JRPGDaoDummy implements JRPGDao {
             maps.add(createDummyMap(newProject));
             maps.add(createRandomDummyMap(newProject));
             activeProject = newProject;
+            return DaoError.NO_ERROR;
         } else {
             Logger.getLogger(JRPGDaoDummy.class.toString()).log(Level.SEVERE, "Project folder name not unique!");
+            return DaoError.CREATE_ERROR;
         }
     }
 
@@ -256,6 +257,11 @@ public class JRPGDaoDummy implements JRPGDao {
 
         numTiles++;
         System.out.println("numTiles: " + numTiles);
+    }
+
+    @Override
+    public DaoError closeActiveProject() {
+        return DaoError.NO_ERROR;
     }
 
 }

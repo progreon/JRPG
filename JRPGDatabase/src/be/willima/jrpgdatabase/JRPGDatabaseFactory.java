@@ -5,7 +5,10 @@
  */
 package be.willima.jrpgdatabase;
 
+import be.willima.jrpgdatabase.implementation.JRPGDaoH2;
 import be.willima.jrpgdatabase.implementation.JRPGDaoDummy;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * TODO
@@ -21,7 +24,8 @@ public class JRPGDatabaseFactory {
      */
     public enum DaoType {
 
-        DUMMY
+        DUMMY,
+        H2DB
     }
 
     /**
@@ -36,6 +40,12 @@ public class JRPGDatabaseFactory {
         }
         if (daoType == DaoType.DUMMY) {
             selectedDao = new JRPGDaoDummy();
+        } else if (daoType == DaoType.H2DB) {
+            try {
+                selectedDao = new JRPGDaoH2();
+            } catch (ClassNotFoundException ex) {
+                Logger.getLogger(JRPGDatabaseFactory.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
 
         return selectedDao;

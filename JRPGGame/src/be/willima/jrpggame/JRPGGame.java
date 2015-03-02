@@ -84,6 +84,7 @@ public class JRPGGame extends Canvas implements Runnable {
         });
 
         frame.setVisible(true);
+        this.requestFocus();
     }
     
     public JRPGGame(JRPGProject project, int startMapID) {

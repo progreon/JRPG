@@ -6,9 +6,8 @@
 package be.willima.jrpgmaker.actions;
 
 import be.willima.jrpgmaker.JRPGMaker;
+import be.willima.jrpgmaker.view.NewProjectDialog;
 import java.awt.event.ActionEvent;
-import java.io.File;
-import javax.swing.JFileChooser;
 
 /**
  *
@@ -16,26 +15,20 @@ import javax.swing.JFileChooser;
  */
 public class NewProjectAction extends JRPGAction {
 
-    public NewProjectAction(JRPGMaker frame) {
-        super("New project...", frame);
+    private NewProjectDialog npDialog;
+
+    public NewProjectAction(JRPGMaker maker) {
+        super("New project...", maker);
+        npDialog = new NewProjectDialog(maker.getFrame());
     }
 
     @Override
     public void actionPerformed(ActionEvent e) { // TODO most of the code to the DAO
-        String projectName = "Test Project Folder";
-        JFileChooser fileChooser = new JFileChooser(System.getProperty("user.home"));
-        fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-        fileChooser.showSaveDialog(null);
-        File projectFolderParent = fileChooser.getSelectedFile();
-        if (projectFolderParent != null) {
-            System.out.println("Setting up project in " + projectFolderParent.getPath() + " ...");
-            File projectFolder = new File(projectFolderParent.getPath() + File.separator + projectName);
-            if (projectFolder.mkdir()) {
-                System.out.println("Project folder was created succesfully!");
-                System.out.println("Creating subfolders ...");
-            } else {
-                System.out.println("Failed to create project folder!");
-            }
+//        npDialog.setVisible(true);
+        int result = npDialog.showDialog();
+        if (result == NewProjectDialog.FINISH) {
+            // TODO zonder getDao()!
+            maker.getDao().createNewProject(npDialog.getProjectFolderURI(), npDialog.getProjectName(), npDialog.getProjectName());
         }
     }
 
