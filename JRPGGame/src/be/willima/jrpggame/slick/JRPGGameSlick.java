@@ -16,7 +16,7 @@ import org.newdawn.slick.state.*;
 public class JRPGGameSlick extends StateBasedGame {
 
     public static final int WIDTH = 160;
-    public static final int HEIGHT = WIDTH / 12 * 9;
+    public static final int HEIGHT = WIDTH * 9 / 12;
     public static final int SCALE = 3;
     public static final String NAME = "Game";
     private JRPGProject project;
@@ -24,8 +24,8 @@ public class JRPGGameSlick extends StateBasedGame {
 
     public JRPGGameSlick(JRPGProject project) {
         super(NAME);
-        this.addState(new MenuState());
-        this.addState(new PlayState());
+        this.addState(new MenuState(project, startMapID));
+        this.addState(new PlayState(project, startMapID));
     }
     
     public JRPGGameSlick(JRPGProject project, int startMapID) {
