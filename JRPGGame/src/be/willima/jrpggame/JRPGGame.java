@@ -10,6 +10,7 @@ import be.willima.jrpgdatabase.JRPGDatabaseFactory;
 import be.willima.jrpgdatabase.model.JRPGProject;
 import be.willima.jrpggame.gfx.Screen;
 import be.willima.jrpggame.level.Level;
+import be.willima.jrpggame.slick.JRPGGameSlick;
 import java.awt.BorderLayout;
 import java.awt.Canvas;
 import java.awt.Dimension;
@@ -20,9 +21,13 @@ import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferInt;
 import java.io.File;
+import java.util.logging.Logger;
 //import java.util.logging.Level;
 //import java.util.logging.Logger;
 import javax.swing.JFrame;
+import org.newdawn.slick.AppGameContainer;
+import org.newdawn.slick.Game;
+import org.newdawn.slick.SlickException;
 
 /**
  *
@@ -30,6 +35,8 @@ import javax.swing.JFrame;
  */
 public class JRPGGame extends Canvas implements Runnable {
 
+    public static final boolean USE_SLICK = true;
+    
     public static final int WIDTH = 160;
     public static final int HEIGHT = WIDTH / 12 * 9;
     public static final int SCALE = 3;
@@ -231,8 +238,20 @@ public class JRPGGame extends Canvas implements Runnable {
         if (error == JRPGDao.DaoError.NO_PROJECT) {
 
         } else {
-            JRPGGame game = new JRPGGame(dao.getActiveProject());
-            game.start();
+            if (USE_SLICK) {
+                AppGameContainer appgc;
+                try {
+                    appgc = new AppGameContainer(new JRPGGameSlick(dao.getActiveProject()));
+                    appgc.setDisplayMode(WIDTH * SCALE, HEIGHT * SCALE, false);
+//                    appgc.setDisplayMode(1366, 768, true);
+                    appgc.start();
+                } catch (SlickException ex) {
+                    Logger.getLogger(JRPGGame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+                }
+            } else {
+                JRPGGame game = new JRPGGame(dao.getActiveProject());
+                game.start();
+            }
         }
     }
 
